@@ -1,0 +1,51 @@
+langcode: en
+status: true
+id: field_collection_recent_projects
+migration_group: anh
+label: Recent projects
+source:
+  plugin: anh_field_collection
+  key: migrate
+  #  field_name is used in our custom plugin to get data about this field_collection_item.
+  field_name: field_your_projects
+process:
+  field_up_institutions_involved:
+    plugin: iterator
+    source: field_institutions_involved
+    process:
+      value: value
+    revision_id: revision_id
+  field_up_investigators:
+    plugin: iterator
+    source: field_investigators
+    process:
+      value: value
+    revision_id: revision_id
+  field_up_main_methods_used:
+    plugin: iterator
+    source: field_main_methods_used
+    process:
+      value: value
+    revision_id: revision_id
+  field_up_project_name:
+    plugin: iterator
+    source: field_project_name
+    process:
+      value: value
+    revision_id: revision_id
+  field_up_project_website:
+    plugin: iterator
+    source: field_project_website
+    process:
+      value: value
+    revision_id: revision_id
+destination:
+  plugin: 'entity_reference_revisions:paragraph'
+  default_bundle: user_projects
+migration_dependencies:
+  required: {  }
+  optional: {  }
+dependencies:
+  enforced:
+    module:
+      - anh_migration

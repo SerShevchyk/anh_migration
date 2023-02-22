@@ -1,0 +1,50 @@
+id: node_news
+label: Node News
+audit: true
+migration_group: anh
+source:
+  plugin: node_news
+process:
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: "und"
+  title: title
+  uid:
+    -
+      plugin: migration_lookup
+      migration: users
+      source: uid
+    -
+      plugin: default_value
+      default_value: 1
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  field_news_body/value: field_news_body_value
+  field_news_body/summary: field_news_body_summary
+  field_news_body/format: field_news_body_format
+
+  field_news_image:
+    - plugin: migration_lookup
+      migration: images_to_media
+      source: field_news_image
+  field_news_components: field_news_paragraphs
+  field_academy: field_academy
+destination:
+  plugin: entity:node
+  default_bundle: news
+migration_dependencies:
+  required:
+    - users
+    - images_to_media
+dependencies:
+  enforced:
+    module:
+      - anh_migration

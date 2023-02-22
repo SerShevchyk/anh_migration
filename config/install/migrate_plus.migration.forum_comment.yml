@@ -1,0 +1,53 @@
+id: anh_migration_forum_comment
+label: Forum Comments
+#audit: true
+migration_group: anh
+source:
+  plugin: anh_migration_forum_comment
+  target: migrate
+  constants:
+    entity_type: node
+process:
+  cid: cid
+  pid:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: pid
+    -
+      plugin: migration_lookup
+      migration: anh_migration_forum_comment
+      source: pid
+  entity_id:
+    plugin: migration_lookup
+    migration: anh_migration_forum
+    source: nid
+  entity_type: 'constants/entity_type'
+  comment_type: comment_type
+  field_name: comment_type
+  subject: subject
+  uid:
+    - plugin: migration_lookup
+      migration: users
+      source: uid
+    - plugin: default_value
+      default_value: 1
+  name: name
+  mail: mail
+  homepage: homepage
+  hostname: hostname
+  created: created
+  changed: changed
+  status: status
+  thread: thread
+  comment_body: comment_body
+destination:
+  plugin: entity:comment
+migration_dependencies:
+  required:
+    - user
+    - anh_migration_forum
+dependencies:
+  enforced:
+    module:
+      - anh_migration

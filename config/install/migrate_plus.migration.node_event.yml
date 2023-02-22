@@ -1,0 +1,74 @@
+id: node_event
+label: Nodes
+migration_group: anh
+audit: true
+source:
+  plugin: node_event
+process:
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: "und"
+  title: title
+  uid:
+    -
+      plugin: migration_lookup
+      migration: users
+      source: uid
+    -
+      plugin: default_value
+      default_value: 1
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  field_event_content_type:
+    - plugin: migration_lookup
+      migration: custom_taxonomy_term
+      source: field_event_content_type
+  field_event_type:
+    - plugin: migration_lookup
+      migration: custom_taxonomy_term
+      source: field_event_type
+  field_event_image:
+    - plugin: migration_lookup
+      migration: images_to_media
+      source: field_event_image
+  field_event_slide_summary: field_event_slide_summary
+  field_event_date_time/value: field_event_date_and_time_value
+  field_event_date_time/end_value: field_event_date_and_time_end_value
+  field_event_location: field_event_location
+  field_event_speaker/value: field_event_speaker_value
+  field_event_speaker/format: field_event_speaker_format
+  field_event_speaker_bio/value: field_event_speaker_bio_value
+  field_event_speaker_bio/format: field_event_speaker_bio_format
+  field_event_description/value: field_event_description_value
+  field_event_description/summary: field_event_description_summary
+  field_event_description/format: field_event_description_format
+  field_event_file_attachments:
+    - plugin: migration_lookup
+      migration: files_to_media
+      source: field_event_file_attachments
+  field_event_partner_organisation:
+    - plugin: migration_lookup
+      migration: custom_taxonomy_term
+      source: field_event_partner_organisation
+  field_academy: field_academy
+destination:
+  plugin: entity:node
+  default_bundle: event
+migration_dependencies:
+  required:
+    - user
+    - images_to_media
+    - files_to_media
+    - custom_taxonomy_term
+dependencies:
+  enforced:
+    module:
+      - anh_migration

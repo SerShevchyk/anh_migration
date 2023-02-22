@@ -1,0 +1,66 @@
+id: node_project
+label: Nodes Project
+audit: true
+migration_group: anh
+source:
+  plugin: node_project
+process:
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: "und"
+  title: title
+  uid:
+    -
+      plugin: migration_lookup
+      migration: users
+      source: uid
+    -
+      plugin: default_value
+      default_value: 1
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  field_project_theme:
+    - plugin: migration_lookup
+      migration: custom_taxonomy_term
+      source: field_project_theme
+  field_project_region:
+    - plugin: migration_lookup
+      migration: custom_taxonomy_term
+      source: field_project_region
+  field_project_college:
+    - plugin: migration_lookup
+      migration: custom_taxonomy_term
+      source: field_project_college
+  field_project_researchers:
+    - plugin: migration_lookup
+      migration: custom_taxonomy_term
+      source: field_project_researchers
+  field_project_status: field_project_status
+  field_project_body/value: field_project_body_value
+  field_project_body/summary: field_project_body_summary
+  field_project_body/format: field_project_body_format
+  field_project_link: field_project_link
+  field_project_attachment:
+    - plugin: migration_lookup
+      migration: files_to_media
+      source: field_project_attachment
+destination:
+  plugin: entity:node
+  default_bundle: project
+migration_dependencies:
+  required:
+    - user
+    - files_to_media
+    - custom_taxonomy_term
+dependencies:
+  enforced:
+    module:
+      - anh_migration

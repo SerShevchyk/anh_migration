@@ -1,0 +1,52 @@
+id: node_blog
+label: Nodes Blog
+migration_group: anh
+audit: true
+source:
+  plugin: node_blog_post
+process:
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: "und"
+  title: title
+  uid:
+    -
+      plugin: migration_lookup
+      migration: users
+      source: uid
+    -
+      plugin: default_value
+      default_value: 1
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  field_tags:
+    - plugin: migration_lookup
+      migration: vocabulary_blog_tags
+      source: field_bp_blog_tags
+  field_blog_image:
+    - plugin: migration_lookup
+      migration: images_to_media
+      source: field_bp_image
+  field_blog_body/value: field_bp_body_value
+  field_blog_body/summary: field_bp_body_summary
+  field_blog_body/format: field_bp_body_format
+destination:
+  plugin: entity:node
+  default_bundle: blog
+migration_dependencies:
+  required:
+    - user
+    - images_to_media
+    - vocabulary_blog_tags
+dependencies:
+  enforced:
+    module:
+      - anh_migration

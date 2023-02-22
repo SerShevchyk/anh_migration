@@ -1,0 +1,43 @@
+id: files_to_media
+label: Files to Media
+audit: true
+migration_group: anh
+source:
+  plugin: files_to_media
+  constants:
+    source_base_path: /var/www/anh-academy/web/sites/default/files/source/
+process:
+  source_full_path:
+    - plugin: concat
+      delimiter: /
+      source:
+        - constants/source_base_path
+        - filepath
+    - plugin: urlencode
+  uid:
+    - plugin: migration_lookup
+      migration: users
+      source: uid
+    - plugin: default_value
+      default_value: 1
+  field_media_document:
+    plugin: file_import
+    source: '@source_full_path'
+    destination: uri
+    uid: '@uid'
+    alt: alt
+    name: title
+  field_title: title
+  status: status
+  created: timestamp
+  changed: timestamp
+destination:
+  plugin: entity:media
+  default_bundle: document
+migration_dependencies:
+  required:
+    - users
+dependencies:
+  enforced:
+    module:
+      - anh_migration

@@ -1,0 +1,58 @@
+id: node_page
+label: Nodes Page
+audit: true
+migration_group: anh
+source:
+  plugin: node_page
+process:
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: "und"
+  title: title
+  uid:
+    -
+      plugin: migration_lookup
+      migration: users
+      source: uid
+    -
+      plugin: default_value
+      default_value: 1
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  field_page_slide_image:
+    - plugin: migration_lookup
+      migration: images_to_media
+      source: field_page_slide_image
+  field_page_slide_summary: field_page_slide_summary
+  field_page_body/value: field_page_body_value
+  field_page_body/summary: field_page_body_summary
+  field_page_body/format: field_page_body_format
+  field_page_right_column_content/value: field_page_right_column_content_value
+  field_page_right_column_content/format: field_page_right_column_content_format
+  field_page_file_attachments:
+    - plugin: migration_lookup
+      migration: files_to_media
+      source: field_page_file_attachments
+  field_page_components: field_page_components
+  field_academy: field_academy
+  field_page_type/value: field_page_type
+destination:
+  plugin: entity:node
+  default_bundle: page
+migration_dependencies:
+  required:
+    - user
+    - images_to_media
+    - files_to_media
+dependencies:
+  enforced:
+    module:
+      - anh_migration

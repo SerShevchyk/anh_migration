@@ -1,0 +1,66 @@
+id: anh_migration_forum
+label: Nodes Forum
+audit: true
+migration_group: anh
+source:
+  plugin: anh_migration_forum
+  node_type: forum
+  target: migrate
+process:
+  nid: tnid
+  vid: vid
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: "und"
+  title: title
+  type:
+    plugin: default_value
+    default_value: forum
+  uid:
+    -
+      plugin: migration_lookup
+      migration: users
+      source: uid
+    -
+      plugin: default_value
+      default_value: 1
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  field_forum_description/value: body_value
+  field_forum_description/format: body_format
+  taxonomy_forums:
+    plugin: migration_lookup
+    migration: custom_taxonomy_term
+    source: taxonomy_forums
+
+  field_forum_agree: field_forum_agree
+  field_academy: field_academy
+  field_forum_attachment:
+#    -
+#      plugin: skip_on_empty
+#      method: process
+#      source: field_forum_attachment
+#    -
+    plugin: migration_lookup
+    migration: files_to_media
+    source: field_forum_attachment
+destination:
+  plugin: entity:node
+  default_bundle: forum
+migration_dependencies:
+  required:
+    - user
+    - files_to_mdia
+    - custom_taxonomy_term
+dependencies:
+  enforced:
+    module:
+      - anh_migration

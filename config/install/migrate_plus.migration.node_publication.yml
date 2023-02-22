@@ -1,0 +1,46 @@
+id: node_publication
+label: Nodes
+audit: true
+migration_group: anh
+source:
+  plugin: node_publication
+process:
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: "und"
+  title: title
+  uid:
+    -
+      plugin: migration_lookup
+      migration: users
+      source: uid
+    -
+      plugin: default_value
+      default_value: 1
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+
+  field_publication_link: field_link
+  field_publication_manual_text: field_publication_name
+  field_publication_theme:
+    - plugin: migration_lookup
+      migration: custom_taxonomy_term
+      source: field_theme
+  field_publication_year: field_year
+destination:
+  plugin: entity:node
+  default_bundle: publication
+migration_dependencies:
+  required:
+    - user
+dependencies:
+  enforced:
+    module:
+      - anh_migration
